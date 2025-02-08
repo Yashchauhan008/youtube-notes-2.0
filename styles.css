@@ -1,0 +1,290 @@
+.notes-buttons-container {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.yt-notes-btn {
+    background-color: #cc0000;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    justify-content: center;
+}
+
+.yt-notes-btn:hover {
+    background-color: #990000;
+}
+
+.previous-notes-btn {
+    background-color: #065fd4 !important;
+}
+
+.previous-notes-btn:hover {
+    background-color: #0456bf !important;
+}
+
+.yt-notes-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    width: 400px;
+}
+
+.yt-notes-popup-content {
+    padding: 20px;
+}
+
+.yt-notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.yt-notes-header h3 {
+    margin: 0;
+    color: #030303;
+}
+
+#yt-notes-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #606060;
+}
+
+#yt-notes-textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#yt-notes-save {
+    background-color: #065fd4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#yt-notes-save:hover {
+    background-color: #0456bf;
+}
+
+/* Styles for previous notes button and list */
+
+
+.previous-notes-list {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-top: 8px;
+    z-index: 9999;
+    max-height: none;
+}
+
+.notes-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #e5e5e5;
+    background: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.notes-list-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #0f0f0f;
+}
+
+#close-notes-list {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #606060;
+    cursor: pointer;
+    padding: 0;
+}
+
+.notes-list-content {
+    padding: 16px;
+}
+
+.video-notes-group {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px 0;
+}
+
+.video-notes-group:last-child {
+    border-bottom: none;
+}
+
+.video-title {
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.video-title a {
+    color: #065fd4;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.video-title a:hover {
+    text-decoration: underline;
+}
+
+.note-item {
+    background: #f8f8f8;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.note-item:last-child {
+    margin-bottom: 0;
+}
+
+.note-number {
+    color: #606060;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.note-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.edit-note-btn,
+.delete-note-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    opacity: 0.7;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.edit-note-btn:hover,
+.delete-note-btn:hover {
+    opacity: 1;
+    background-color: #f2f2f2;
+}
+
+.edit-note-container {
+    margin-top: 8px;
+}
+
+.edit-note-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.4;
+    resize: vertical;
+    margin-bottom: 8px;
+}
+
+.edit-note-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.save-edit-btn,
+.cancel-edit-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.save-edit-btn {
+    background-color: #065fd4;
+    color: white;
+}
+
+.save-edit-btn:hover {
+    background-color: #0456bf;
+}
+
+.cancel-edit-btn {
+    background-color: #f2f2f2;
+    color: #606060;
+}
+
+.cancel-edit-btn:hover {
+    background-color: #e5e5e5;
+}
+
+.note-video-id a {
+    color: #065fd4;
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 4px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.note-video-id a:hover {
+    text-decoration: underline;
+}
+
+.note-content {
+    color: #606060;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-top: 8px;
+}
+
+.loading, .no-notes {
+    text-align: center;
+    color: #606060;
+    padding: 20px;
+    font-size: 14px;
+}
