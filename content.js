@@ -267,7 +267,7 @@ function createNotesButton() {
     return addNotesButton;
 }
 
-// Create notes popup
+// Create notes popup with rich text editor
 function createNotesPopup() {
     const popup = document.createElement('div');
     popup.id = 'yt-notes-popup';
@@ -279,12 +279,95 @@ function createNotesPopup() {
                 <h3>Add Note for this video</h3>
                 <button id="yt-notes-close">×</button>
             </div>
-            <textarea id="yt-notes-textarea" placeholder="Enter your notes here..."></textarea>
-            <button id="yt-notes-save">Add Note</button>
+            <div class="yt-notes-toolbar">
+                <button type="button" data-command="bold" title="Bold">
+                    <i class="format-icon">🖊️</i>
+                </button>
+                <button type="button" data-command="italic" title="Italic">
+                    <i class="format-icon">/</i>
+                </button>
+                <button type="button" data-command="underline" title="Underline">
+                    <i class="format-icon">U̲</i>
+                </button>
+                <div class="toolbar-separator"></div>
+                <button type="button" data-command="highlight" title="Highlight">
+                    <i class="format-icon">📖</i>
+                </button>
+                <div class="color-picker">
+                    <button type="button" class="color-btn" title="Text Color">
+                        <i class="format-icon">🎨</i>
+                    </button>
+                    <div class="color-dropdown">
+                        <button type="button" data-color="#000000" style="background: #000000;"></button>
+                        <button type="button" data-color="#cc0000" style="background: #cc0000;"></button>
+                        <button type="button" data-color="#0456bf" style="background: #0456bf;"></button>
+                        <button type="button" data-color="#217346" style="background: #217346;"></button>
+                        <button type="button" data-color="#b45f06" style="background: #b45f06;"></button>
+                    </div>
+                </div>
+            </div>
+            <div id="yt-notes-editor" class="yt-notes-editor" contenteditable="true" placeholder="Enter your notes here..."></div>
+            <button id="yt-notes-save" class="yt-notes-save-btn">Add Note</button>
         </div>
     `;
     
     document.body.appendChild(popup);
+    setupRichTextEditor();
+}
+
+// Setup rich text editor functionality
+function setupRichTextEditor() {
+    const toolbar = document.querySelector('.yt-notes-toolbar');
+    const editor = document.getElementById('yt-notes-editor');
+
+    // Format buttons
+    toolbar.querySelectorAll('button[data-command]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const command = btn.dataset.command;
+            if (command === 'highlight') {
+                document.execCommand('backColor', false, '#fff176');
+            } else {
+                document.execCommand(command, false, null);
+            }
+            editor.focus();
+        });
+    });
+
+    // Color picker
+    const colorDropdown = document.querySelector('.color-dropdown');
+    const colorBtn = document.querySelector('.color-btn');
+
+    colorBtn.addEventListener('click', () => {
+        colorDropdown.style.display = colorDropdown.style.display === 'grid' ? 'none' : 'grid';
+    });
+
+    colorDropdown.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.execCommand('foreColor', false, btn.dataset.color);
+            colorDropdown.style.display = 'none';
+            editor.focus();
+        });
+    });
+
+    // Close color dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.color-picker')) {
+            colorDropdown.style.display = 'none';
+        }
+    });
+
+    // Add placeholder behavior
+    editor.addEventListener('focus', () => {
+        if (editor.textContent.trim() === '') {
+            editor.textContent = '';
+        }
+    });
+
+    editor.addEventListener('blur', () => {
+        if (editor.textContent.trim() === '') {
+            editor.textContent = '';
+        }
+    });
 }
 
 // Handle notes storage and retrieval
@@ -317,8 +400,9 @@ async function handleNotes() {
     });
     
     saveBtn.addEventListener('click', () => {
-        const newNote = textarea.value.trim();
-        if (!newNote) return; // Don't save empty notes
+        const editor = document.getElementById('yt-notes-editor');
+        const newNote = editor.innerHTML.trim();
+        if (!newNote || newNote === '<br>') return; // Don't save empty notes
 
         chrome.storage.local.get(notesKey, (result) => {
             let notes = result[notesKey] || [];
@@ -326,15 +410,17 @@ async function handleNotes() {
                 // Convert old format to array if needed
                 notes = [notes];
             }
-            notes.push(newNote); // Add new note to array
+            notes.push(newNote); // Add new note with HTML formatting
 
             chrome.storage.local.set({ [notesKey]: notes }, () => {
-                // Show save confirmation
+                // Show save confirmation with animation
+                saveBtn.classList.add('saved');
                 saveBtn.textContent = 'Added!';
                 setTimeout(() => {
+                    saveBtn.classList.remove('saved');
                     saveBtn.textContent = 'Add Note';
                     popup.style.display = 'none'; // Hide popup after saving
-                    textarea.value = ''; // Clear textarea
+                    editor.innerHTML = ''; // Clear editor
                 }, 1000);
                 loadAllNotes(); // Refresh the notes list
             });
